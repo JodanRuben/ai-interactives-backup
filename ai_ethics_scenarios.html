@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI: Our Way For Our Course - Scenario Activities</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        
+        .scenario-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .scenario-title {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-text {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-style: italic;
+            border-left: 4px solid #3498db;
+        }
+        
+        .choices {
+            margin: 20px 0;
+        }
+        
+        .choice-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .choice-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .feedback {
+            display: none;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .feedback.good {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.caution {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .feedback.poor {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .next-btn {
+            background: #27ae60;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .next-btn:hover {
+            background: #229954;
+        }
+        
+        .progress {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            background: #e74c3c;
+            height: 100%;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .completion {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI: Our Way For Our Course</h1>
+        <h2>Scenario Activities</h2>
+        <p>Test your decision-making with these realistic situations you might face in your coursework.</p>
+        <div class="progress">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <p id="scenario-counter">Scenario 1 of 7</p>
+    </div>
+
+    <!-- Scenario 1 -->
+    <div class="scenario-container" id="scenario1">
+        <h2 class="scenario-title">Scenario 1: Assignment Research</h2>
+        <div class="scenario-text">
+            You have an assignment on contemporary Aboriginal health issues. You need to understand the key challenges and solutions.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(1, 'poor')">
+                A) Ask ChatGPT directly for a comprehensive summary of Aboriginal health issues and solutions
+            </button>
+            <button class="choice-btn" onclick="showFeedback(1, 'good')">
+                B) Start with the university library and databases to locate the most appropriate sources. Read them, take notes, then discuss some key arguments with ChatGPT to test the perspectives and if there's tensions between the sources
+            </button>
+            <button class="choice-btn" onclick="showFeedback(1, 'caution')">
+                C) Ask AI to come up with a research plan, then seek out Aboriginal-authored sources and community perspectives to fill in the blanks
+            </button>
+        </div>
+        
+        <div class="feedback poor" id="feedback1-poor">
+            <strong>❌ Not the best approach.</strong><br>
+            AI systems are trained on vast amounts of data that may not represent authentic Aboriginal voices or current community priorities. Using AI as your primary source risks perpetuating outdated or culturally inappropriate information. Aboriginal health is complex and requires understanding community perspectives, not just medical statistics.
+        </div>
+        
+        <div class="feedback good" id="feedback1-good">
+            <strong>✅ Best choice!</strong><br>
+            This approach shows respect. AI can help you organise your thinking and research strategy, but Aboriginal voices and community-authored sources should drive your understanding. This ensures you're engaging with authentic perspectives rather than AI interpretations of cultural knowledge.
+        </div>
+        
+        <div class="feedback caution" id="feedback1-caution">
+            <strong>⚠️ Be mindful.</strong><br>
+            Always start the research process yourself. You are here to make learning leaps, don't let AI dictate how things go. Use university library and database search for key sources from appropriate authors on the topics.
+        </div>
+        
+        <button class="next-btn" onclick="nextScenario(2)">Continue to Scenario 2</button>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="scenario-container hidden" id="scenario2">
+        <h2 class="scenario-title">Scenario 2: Citing AI Use</h2>
+        <div class="scenario-text">
+            You used Microsoft Copilot to help organise your research notes on Native Title law. It helped you structure your arguments and suggested some connecting themes. Now you're writing your final assignment and wondering how to handle this in your bibliography and references.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(2, 'good')">
+                A) Include a clear declaration about AI assistance in organising ideas, and ensure all substantive content comes from properly cited sources
+            </button>
+            <button class="choice-btn" onclick="showFeedback(2, 'poor')">
+                B) Don't mention the AI use - it was just organising your own research notes
+            </button>
+            <button class="choice-btn" onclick="showFeedback(2, 'caution')">
+                C) Rewrite everything to avoid using any AI-influenced structure
+            </button>
+        </div>
+        
+        <div class="feedback good" id="feedback2-good">
+            <strong>✅ Nice transparency!</strong><br>
+            This demonstrates academic integrity and appropriate AI use. By acknowledging AI assistance while ensuring your content comes from credible sources, you're being honest about your process while maintaining scholarly standards.
+        </div>
+        
+        <div class="feedback poor" id="feedback2-poor">
+            <strong>❌ This could go badly.</strong><br>
+            Failing to acknowledge AI assistance, even for organisation, is a risk. Transparency is essential - your marker needs to understand what support you received.
+        </div>
+        
+        <div class="feedback caution" id="feedback2-caution">
+            <strong>⚠️ Unnecessarily cautious.</strong><br>
+            You're being overly careful here. If Copilot helped you organise ideas effectively, that's legitimate academic support worth acknowledging. Completely rewriting wastes valuable time and doesn't teach you how to use AI ethically in future assignments. The key skill is learning to be transparent about your process, not avoiding helpful tools entirely.
+        </div>
+        
+        <button class="next-btn" onclick="nextScenario(3)">Continue to Scenario 3</button>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="scenario-container hidden" id="scenario3">
+        <h2 class="scenario-title">Scenario 3: Cultural Content</h2>
+        <div class="scenario-text">
+            Your assignment asks about traditional ecological knowledge. When you ask AI about Aboriginal land management practices, it provides detailed information about specific cultural practices including some that may be sacred or restricted knowledge. The AI response seems comprehensive and well-written.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(3, 'good')">
+                A) Flag this as a red flag - seek Aboriginal-authored academic sources and acknowledge the limitations of AI-generated cultural content
+            </button>
+            <button class="choice-btn" onclick="showFeedback(3, 'caution')">
+                B) Use it as background reading but don't cite it in your assignment
+            </button>
+            <button class="choice-btn" onclick="showFeedback(3, 'poor')">
+                C) Use the information since it seems accurate and comprehensive
+            </button>
+        </div>
+        
+        <div class="feedback good" id="feedback3-good">
+            <strong>✅ Culturally responsive approach!</strong><br>
+            You're recognising that traditional knowledge isn't just "information" - it belongs to communities and comes with protocols. Seeking Aboriginal-authored sources respects knowledge sovereignty and ensures you're engaging with authentic, appropriately shared knowledge rather than AI extractions.
+        </div>
+        
+        <div class="feedback caution" id="feedback3-caution">
+            <strong>⚠️ Still problematic.</strong><br>
+            Even using AI-generated cultural content for "background" can shape your understanding inappropriately. The problem isn't just citation - it's that AI may be sharing knowledge without cultural permission or context. Start with Aboriginal-authored sources instead.
+        </div>
+        
+        <div class="feedback poor" id="feedback3-poor">
+            <strong>❌ Serious concern.</strong><br>
+            AI-generated cultural content may include sacred or restricted knowledge that shouldn't be shared in academic assignments. It lacks the cultural protocols and permissions that govern traditional knowledge sharing. This could perpetuate cultural appropriation and misrepresentation.
+        </div>
+        
+        <button class="next-btn" onclick="nextScenario(4)">Continue to Scenario 4</button>
+    </div>
+
+    <!-- Scenario 4 -->
+    <div class="scenario-container hidden" id="scenario4">
+        <h2 class="scenario-title">Scenario 4: Time Pressure</h2>
+        <div class="scenario-text">
+            Your assignment on sovereignty is due tomorrow. You've done solid research and have good sources, but you're struggling to structure your argument effectively. You're tired and stressed, and Copilot could quickly help you organise your thoughts or even draft sections.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(4, 'good')">
+                A) Use Copilot to suggest argument structure from your research, write the content yourself, then ask it to check if your argument flows logically
+            </button>
+            <button class="choice-btn" onclick="showFeedback(4, 'caution')">
+                B) Just submit whatever you have without AI assistance to avoid any issues
+            </button>
+            <button class="choice-btn" onclick="showFeedback(4, 'poor')">
+                C) Have Copilot write your introduction and conclusion since you're short on time
+            </button>
+        </div>
+        
+        <div class="feedback good" id="feedback4-good">
+            <strong>✅ Smart use under pressure!</strong><br>
+            This demonstrates mature AI use - leveraging it for organisation while maintaining your authentic voice and analysis. You're using AI as a tool to present your research more effectively, not to replace your thinking. Remember to acknowledge this assistance.
+        </div>
+        
+        <div class="feedback caution" id="feedback4-caution">
+            <strong>⚠️ Could be limiting yourself.</strong><br>
+            Using Copilot ethically, like asking it to suggest structure from your research, writing the sections yourself, and then asking for feedback is a strategic use of AI on limited time. You would also miss out on marks if you don't have an intro and conclusion!
+        </div>
+        
+        <div class="feedback poor" id="feedback4-poor">
+            <strong>❌ Academic misconduct under pressure.</strong><br>
+            Time pressure doesn't justify submitting AI-written content as your own work. Your introduction and conclusion should reflect your understanding and voice. This crosses the line from assistance to ghostwriting.
+        </div>
+        
+        <button class="next-btn" onclick="nextScenario(5)">Continue to Scenario 5</button>
+    </div>
+
+    <!-- Scenario 5 -->
+    <div class="scenario-container hidden" id="scenario5">
+        <h2 class="scenario-title">Scenario 5: Group Work Dynamics</h2>
+        <div class="scenario-text">
+            You're working on a group presentation about Aboriginal economic development. One group member used AI to generate their entire section without telling the group, and now you've discovered it contains several factual errors about land rights legislation, and you can tell its AI waffle when they read it. The assignment is due in two days and this section is crucial to your overall argument.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(5, 'good')">
+                A) Raise the issue with your group member, offer to help fact-check using Aboriginal-authored sources, and ensure transparency about any AI use
+            </button>
+            <button class="choice-btn" onclick="showFeedback(5, 'poor')">
+                B) Let it slide - there's no time to fix it and you don't want to create conflict
+            </button>
+            <button class="choice-btn" onclick="showFeedback(5, 'caution')">
+                C) Quietly fix the errors yourself without mentioning the AI use to avoid confrontation
+            </button>
+        </div>
+        
+        <div class="feedback good" id="feedback5-good">
+            <strong>✅ Responsible group leadership!</strong><br>
+            You're prioritising accuracy and cultural respect over convenience. By approaching this constructively and offering solutions, you're ensuring your group's work meets ethical standards. This is exactly how to handle AI misuse collaboratively.
+        </div>
+        
+        <div class="feedback poor" id="feedback5-poor">
+            <strong>❌ Avoiding responsibility harms everyone.</strong><br>
+            Submitting work with factual errors about Aboriginal rights could perpetuate misinformation and shows disrespect for the subject matter. As a group, you're collectively responsible for accuracy. Avoiding difficult conversations doesn't solve the integrity issue.
+        </div>
+        
+        <div class="feedback caution" id="feedback5-caution">
+            <strong>⚠️ Fixing symptoms, not the problem.</strong><br>
+            While correcting errors is good, not addressing the undisclosed AI use means your group member might repeat this behaviour. Part of collective responsibility is honest communication about research methods and maintaining group academic integrity standards.
+        </div>
+        
+        <button class="next-btn" onclick="nextScenario(6)">Continue to Scenario 6</button>
+    </div>
+
+    <!-- Scenario 6 -->
+    <div class="scenario-container hidden" id="scenario6">
+        <h2 class="scenario-title">Scenario 6: Data and Privacy</h2>
+        <div class="scenario-text">
+            For your research assignment on Aboriginal community health outcomes, you have access to a de-identified dataset from a community health organisation. You're considering uploading this data into ChatGPT to help you identify patterns and trends for your analysis.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(6, 'poor')">
+                A) Upload the data since it's de-identified and will help you understand the patterns better and quicker
+            </button>
+            <button class="choice-btn" onclick="showFeedback(6, 'good-b')">
+                B) Use university-approved analytical tools and seek guidance from your instructor about appropriate data analysis methods
+            </button>
+            <button class="choice-btn" onclick="showFeedback(6, 'good-c')">
+                C) Manually analyse the data yourself without any digital tools to be completely safe
+            </button>
+        </div>
+        
+        <div class="feedback poor" id="feedback6-poor">
+            <strong>❌ Serious data sovereignty violation.</strong><br>
+            Even de-identified Aboriginal community data belongs to that community and should not be shared with commercial AI platforms. This violates principles of Aboriginal data sovereignty and could expose sensitive community information. AI companies may use this data for training, perpetuating extraction without consent.
+        </div>
+        
+        <div class="feedback good" id="feedback6-good-b">
+            <strong>✅ Respecting data sovereignty!</strong><br>
+            You're recognising that Aboriginal community data requires special protocols, even when de-identified. Using approved tools and seeking guidance ensures you're handling sensitive information appropriately while still completing your analysis effectively.
+        </div>
+        
+        <div class="feedback good" id="feedback6-good-c">
+            <strong>✅ Respecting data sovereignty here!</strong><br>
+            This is completely fine, as long as you are working within university systems. Good Choice!
+        </div>
+        
+        <button class="next-btn" onclick="nextScenario(7)">Continue to Scenario 7</button>
+    </div>
+
+    <!-- Scenario 7 -->
+    <div class="scenario-container hidden" id="scenario7">
+        <h2 class="scenario-title">Scenario 7: Visual Presentation</h2>
+        <div class="scenario-text">
+            You're creating a poster about Aboriginal activism for a class presentation. You need powerful visual elements to support your research on key figures and movements. You're considering using AI image generators like DALL-E to create images representing Aboriginal activists or cultural symbols to make your poster more engaging.
+        </div>
+        
+        <div class="choices">
+            <button class="choice-btn" onclick="showFeedback(7, 'poor')">
+                A) Generate AI images of Aboriginal people and cultural symbols - it will make the poster more visually appealing, wow the lecturer, and save time finding appropriate images
+            </button>
+            <button class="choice-btn" onclick="showFeedback(7, 'good')">
+                B) Use only photographs and artwork with proper permissions, crediting Aboriginal artists and photographers, or create simple graphics yourself
+            </button>
+            <button class="choice-btn" onclick="showFeedback(7, 'caution')">
+                C) Use AI to generate abstract background elements and textures, but avoid any cultural imagery or human representations
+            </button>
+        </div>
+        
+        <div class="feedback poor" id="feedback7-poor">
+            <strong>❌ Cultural appropriation through AI.</strong><br>
+            AI-generated images of Aboriginal people and cultural symbols are deeply problematic. These systems create fictional representations without cultural permission or context, potentially misrepresenting sacred symbols or creating stereotypical imagery.
+        </div>
+        
+        <div class="feedback good" id="feedback7-good">
+            <strong>✅ Respecting visual sovereignty!</strong><br>
+            You're recognising that Aboriginal imagery isn't just "content" to generate - it represents real people and sacred cultural elements. Using authentic, properly credited visuals supports Aboriginal artists and maintains cultural integrity. Your poster will be more respectful and academically sound.
+        </div>
+        
+        <div class="feedback caution" id="feedback7-caution">
+            <strong>⚠️ Decent, but still be cautious.</strong><br>
+            While avoiding cultural imagery is good, consider whether AI-generated elements are necessary at all. Simple, respectful design using authentic sources often has more impact than AI-enhanced visuals. Focus your energy on presenting the activist stories powerfully rather than decorative elements.
+        </div>
+        
+        <button class="next-btn" onclick="showCompletion()">See Your Results</button>
+    </div>
+
+    <!-- Completion Screen -->
+    <div class="completion" id="completion">
+        <h2>Scenarios Complete!</h2>
+        <p>You've worked through 7 realistic AI ethics scenarios. These situations reflect the types of decisions you'll face in your coursework.</p>
+        
+        <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left;">
+            <h3>Key Takeaways:</h3>
+            <ul>
+                <li><strong>Aboriginal knowledge sovereignty matters:</strong> Always prioritise Aboriginal-authored sources and community perspectives</li>
+                <li><strong>Transparency is non-negotiable:</strong> Acknowledge AI assistance, even for organisation and structure</li>
+                <li><strong>AI as tool, not replacement:</strong> Use AI to enhance your research process, not replace your thinking</li>
+                <li><strong>Cultural protocols apply:</strong> Traditional knowledge and visual representations require community permission and appropriate cultural context</li>
+            </ul>
+        </div>
+        
+        <p><strong>Ready to return to the module?</strong><br>
+        Close this window to continue with your learning.</p>
+        
+        <div style="margin-top: 30px; text-align: center;">
+            <button class="choice-btn" onclick="restartScenarios()" style="background: #27ae60; max-width: 300px; margin: 0 auto;">
+                Try Different Choices
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = 1;
+        const totalScenarios = 7;
+        
+        function showFeedback(scenario, type) {
+            // Hide all choices
+            const choices = document.querySelector(`#scenario${scenario} .choices`);
+            choices.style.display = 'none';
+            
+            // Show specific feedback
+            const feedback = document.getElementById(`feedback${scenario}-${type}`);
+            feedback.style.display = 'block';
+            
+            // Show next button
+            const nextBtn = document.querySelector(`#scenario${scenario} .next-btn`);
+            nextBtn.style.display = 'inline-block';
+            
+            // Update progress
+            updateProgress();
+        }
+        
+        function nextScenario(next) {
+            // Hide current scenario
+            document.getElementById(`scenario${currentScenario}`).classList.add('hidden');
+            
+            // Show next scenario
+            if (next <= totalScenarios) {
+                document.getElementById(`scenario${next}`).classList.remove('hidden');
+                currentScenario = next;
+                document.getElementById('scenario-counter').textContent = `Scenario ${next} of ${totalScenarios}`;
+                
+                // Scroll to top for mobile users
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function showCompletion() {
+            // Hide current scenario
+            document.getElementById(`scenario${currentScenario}`).classList.add('hidden');
+            
+            // Hide header
+            document.querySelector('.header').style.display = 'none';
+            
+            // Show completion
+            document.getElementById('completion').style.display = 'block';
+        }
+        
+        function updateProgress() {
+            const progress = (currentScenario / totalScenarios) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        function restartScenarios() {
+            // Reset to beginning
+            currentScenario = 1;
+            
+            // Hide completion screen
+            document.getElementById('completion').style.display = 'none';
+            
+            // Show header
+            document.querySelector('.header').style.display = 'block';
+            
+            // Hide all scenarios
+            for (let i = 1; i <= totalScenarios; i++) {
+                document.getElementById(`scenario${i}`).classList.add('hidden');
+                
+                // Reset each scenario to initial state
+                const scenario = document.getElementById(`scenario${i}`);
+                
+                // Show choices again
+                const choices = scenario.querySelector('.choices');
+                if (choices) choices.style.display = 'block';
+                
+                // Hide all feedback
+                const feedbacks = scenario.querySelectorAll('.feedback');
+                feedbacks.forEach(feedback => feedback.style.display = 'none');
+                
+                // Hide next button
+                const nextBtn = scenario.querySelector('.next-btn');
+                if (nextBtn) nextBtn.style.display = 'none';
+            }
+            
+            // Show scenario 1
+            document.getElementById('scenario1').classList.remove('hidden');
+            
+            // Reset counter and progress
+            document.getElementById('scenario-counter').textContent = 'Scenario 1 of 7';
+            document.getElementById('progress').style.width = '0%';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI: Our Way For Our Course - Assignment Guidance Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #4a4a4a 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .logo-placeholder {
+            height: 60px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 400;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #00b894;
+        }
+
+        .intro p {
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95em;
+        }
+
+        .section {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .question {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3436;
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            border: none;
+            color: white;
+            padding: 18px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1em;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+            background: linear-gradient(135deg, #00a085 0%, #00b7b3 100%);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fdcb6e 0%, #f39c12 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .guidance-section {
+            background: linear-gradient(135deg, #81ecec 0%, #74b9ff 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .guidance-section h3 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .guidance-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .guidance-section li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .guidance-section li:before {
+            content: "•";
+            color: #f39c12;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .red-line {
+            background: linear-gradient(135deg, #e17055 0%, #d63031 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .attribution-box {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .attribution-box h4 {
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .attribution-template {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .dead-end {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #00b894 0%, #55a3ff 100%);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-placeholder">
+                [Logo Image Placeholder - Insert "AI: Our Way For Our Course" header image here]
+            </div>
+            <h1>AI: Our Way For Our Course</h1>
+            <div class="subtitle">Assignment Guidance Tool</div>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <p>This activity has been made to shift your thinking and help you approach Generative AI in ethical ways for your assessments for this course. All the advice you have been given so far still applies.</p>
+                <p class="note"><strong>NOTE:</strong> These suggestions are starting points to get you thinking about how to use AI tools thoughtfully and effectively. Use them as prompts as you keep developing your ethical approach.</p>
+            </div>
+
+            <!-- Start Section -->
+            <div class="section active" id="start">
+                <div class="question">What type of assignment are you doing?</div>
+                <div class="options">
+                    <button class="option-btn" onclick="goToSection('indigenous-check', 'essay')">Essay, Report, or Case Study</button>
+                    <button class="option-btn" onclick="goToSection('indigenous-check', 'group')">Group Presentation</button>
+                    <button class="option-btn" onclick="goToSection('indigenous-check', 'visual')">Visual Presentation</button>
+                    <button class="option-btn" onclick="goToSection('quiz-end')">Progress Quiz</button>
+                    <button class="option-btn" onclick="goToSection('indigenous-check', 'reflection')">Critical Reflection</button>
+                </div>
+            </div>
+
+            <!-- Quiz Dead End -->
+            <div class="section" id="quiz-end">
+                <button class="back-btn" onclick="goToSection('start')">← Back</button>
+                <div class="dead-end">
+                    No AI needed, demonstrate command over your course content and you'll be fine.
+                </div>
+            </div>
+
+            <!-- Indigenous Knowledge Check -->
+            <div class="section" id="indigenous-check">
+                <button class="back-btn" onclick="goToSection('start')">← Back</button>
+                <div class="question">Does your assignment involve Aboriginal/Indigenous knowledge, stories, or cultural content?</div>
+                <div class="options">
+                    <button class="option-btn" onclick="goToSection('indigenous-content')">Yes</button>
+                    <button class="option-btn" onclick="goToSection('tool-selection')">No</button>
+                </div>
+            </div>
+
+            <!-- Indigenous Content Pathway -->
+            <div class="section" id="indigenous-content">
+                <button class="back-btn" onclick="goToSection('indigenous-check')">← Back</button>
+                <div class="question">Are you working with Indigenous knowledge/content that was PROVIDED by your course OR content you found yourself through external research?</div>
+                <div class="options">
+                    <button class="option-btn" onclick="goToSection('indigenous-course')">Provided by course</button>
+                    <button class="option-btn" onclick="goToSection('indigenous-external')">External research I found</button>
+                </div>
+            </div>
+
+            <!-- Course-Provided Indigenous Content -->
+            <div class="section" id="indigenous-course">
+                <button class="back-btn" onclick="goToSection('indigenous-content')">← Back</button>
+                <div class="guidance-section">
+                    <h3>Course-Provided Indigenous Content</h3>
+                    <ul>
+                        <li>This content has been selected for educational use</li>
+                        <li>Use AI only for your analysis/writing about the content</li>
+                        <li>Never input the actual Indigenous content into AI systems</li>
+                        <li>Always be critical of what AI systems say about cultural concepts</li>
+                        <li>You can also give the model feedback and 'thumbs down' gestures as well</li>
+                    </ul>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="goToSection('tool-selection')">Continue to tool selection →</button>
+                </div>
+            </div>
+
+            <!-- External Indigenous Content -->
+            <div class="section" id="indigenous-external">
+                <button class="back-btn" onclick="goToSection('indigenous-content')">← Back</button>
+                <div class="guidance-section">
+                    <h3>External Content:</h3>
+                    
+                    <h4>Published content:</h4>
+                    <p>This can include published content on websites, other educational resources, books not in our library. Publicly available content must be appropriately referenced, including images (you must check their copyright use).</p>
+                    
+                    <h4>Non-published content:</h4>
+                    <p>This could include stories you have been told or heard from Aboriginal people, sacred sites/places/practices you may have seen. For these:</p>
+                    <ul>
+                        <li>Do you have clear, appropriate permission to use this knowledge?</li>
+                        <li>Have you verified the source and cultural protocols?</li>
+                        <li>Is this content crucial for this assignment? (Could you complete the work using course materials and clearly attributed Indigenous scholarship?)</li>
+                        <li>When in doubt, ask your instructor</li>
+                        <li><strong>Remember:</strong> AI training data includes extracted Indigenous knowledge without consent</li>
+                    </ul>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="goToSection('tool-selection')">I've verified this is appropriate → Continue</button>
+                </div>
+            </div>
+
+            <!-- Tool Selection -->
+            <div class="section" id="tool-selection">
+                <button class="back-btn" onclick="goBackFromToolSelection()">← Back</button>
+                <div class="question">Are you using University Approved Copilot with data security?</div>
+                <div class="options">
+                    <button class="option-btn" onclick="goToSection('copilot-guidance')">Yes - Using Copilot</button>
+                    <button class="option-btn" onclick="goToSection('external-guidance')">No - Using external tools</button>
+                </div>
+            </div>
+
+            <!-- Copilot Guidance -->
+            <div class="section" id="copilot-guidance">
+                <button class="back-btn" onclick="goToSection('tool-selection')">← Back</button>
+                <div id="copilot-content"></div>
+            </div>
+
+            <!-- External Tools Guidance -->
+            <div class="section" id="external-guidance">
+                <button class="back-btn" onclick="goToSection('tool-selection')">← Back</button>
+                <div id="external-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAssignmentType = '';
+        let navigationHistory = [];
+
+        function goToSection(sectionId, assignmentType = null) {
+            // Store current section in history
+            const currentSection = document.querySelector('.section.active');
+            if (currentSection && currentSection.id !== sectionId) {
+                navigationHistory.push(currentSection.id);
+            }
+
+            if (assignmentType) {
+                currentAssignmentType = assignmentType;
+            }
+
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // If going to guidance sections, populate content
+            if (sectionId === 'copilot-guidance') {
+                populateCopilotGuidance();
+            } else if (sectionId === 'external-guidance') {
+                populateExternalGuidance();
+            }
+        }
+
+        function goBackFromToolSelection() {
+            // Smart navigation based on the most recent relevant section in history
+            if (navigationHistory.length > 0) {
+                // Look for the last relevant section (not guidance screens)
+                for (let i = navigationHistory.length - 1; i >= 0; i--) {
+                    const section = navigationHistory[i];
+                    if (section === 'indigenous-check' || section === 'indigenous-course' || section === 'indigenous-external') {
+                        // Go to that section and clean up history
+                        navigationHistory.splice(i);
+                        goToSection(section);
+                        return;
+                    }
+                }
+            }
+            // Fallback to indigenous-check if no relevant history found
+            goToSection('indigenous-check');
+        }
+
+        function populateCopilotGuidance() {
+            const content = document.getElementById('copilot-content');
+            let html = '';
+
+            switch(currentAssignmentType) {
+                case 'essay':
+                    html = `
+                        <h2>Essay / Report / Case Study (Copilot)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Brainstorming and outlining</h3>
+                            <ul>
+                                <li>Ways to frame this topic?</li>
+                                <li>How do these themes connect or compete?</li>
+                                <li>Is this structure leading somewhere?</li>
+                                <li>Are these citations accurate and complete?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Research synthesis</h3>
+                            <ul>
+                                <li>Where do these authors disagree?</li>
+                                <li>What tensions am I noticing?</li>
+                                <li>Who's being left out?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>What are the limits of my argument?</li>
+                                <li>Is this evidence strong or just convenient?</li>
+                                <li>What would a critic say?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>Are these sentences clear for the reader?</li>
+                                <li>Am I repeating myself here?</li>
+                                <li>Is this paragraph pulling its weight?</li>
+                            </ul>
+                        </div>
+
+                        <div class="red-line">
+                            RED LINE: Never copy AI text straight into your draft. Edit. Own it.
+                        </div>
+                    `;
+                    break;
+
+                case 'group':
+                    html = `
+                        <h2>Group Presentation (Copilot)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Content organisation</h3>
+                            <ul>
+                                <li>Does my section build on the last speaker?</li>
+                                <li>Are we circling the same point too much?</li>
+                                <li>What's the takeaway from my part?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>Where can I add a sharp example?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>Does this sound natural out loud?</li>
+                                <li>Can I trim this without losing meaning?</li>
+                            </ul>
+                        </div>
+
+                        <div class="red-line">
+                            RED LINE: Don't outsource your voice. Use AI to refine, not replace.
+                        </div>
+                    `;
+                    break;
+
+                case 'visual':
+                    html = `
+                        <h2>Visual Presentation (Copilot)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Concept and structure</h3>
+                            <ul>
+                                <li>Do you have any suggestions for clear visual ways to show this idea?</li>
+                                <li>Am I trying to say too much on one slide?</li>
+                                <li>Would someone unfamiliar with the topic understand this?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>What's the key takeaway for my audience?</li>
+                                <li>Does this respect the depth of the idea?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>Does the flow make sense without me talking?</li>
+                                <li>Does this title guide the viewer or confuse them?</li>
+                                <li>Are my visuals helping or distracting?</li>
+                                <li>Where can I tighten this script?</li>
+                            </ul>
+                        </div>
+
+                        <div class="red-line">
+                            RED LINE: Don't ask AI to design the story for you. Use it to test clarity, not generate the vision.
+                        </div>
+                    `;
+                    break;
+
+                case 'reflection':
+                    html = `
+                        <h2>Critical Reflection (Copilot)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Framing and focus</h3>
+                            <ul>
+                                <li>What's the difference between retelling and critically reflecting?</li>
+                                <li>Where did my thinking shift — and why?</li>
+                                <li>Is this grounded in my learning, or just summary?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>Where do I need to bring in a scholar to deepen this?</li>
+                                <li>Am I applying the reading, or just name-dropping it?</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>Is my voice strong or hiding behind quotes?</li>
+                                <li>Does this feel like a journey or just fragments?</li>
+                                <li>Have I closed the loop by the end?</li>
+                                <li>Is each section building on the last?</li>
+                            </ul>
+                        </div>
+
+                        <div class="red-line">
+                            RED LINE: AI can't reflect on your learning — only you can. Don't outsource your voice.
+                        </div>
+                    `;
+                    break;
+            }
+
+            html += `
+                <div class="attribution-box">
+                    <h4>Remember to acknowledge your use:</h4>
+                    <div class="attribution-template">
+                        <strong>I acknowledge my use of [insert tool name + (access link)] to [state how you've used the tool]. The prompt I used was: [include prompt]. I then [specific mention of any additional use, edits, or changes you've made].</strong>
+                    </div>
+                </div>
+            `;
+
+            content.innerHTML = html;
+        }
+
+        function populateExternalGuidance() {
+            const content = document.getElementById('external-content');
+            let html = '';
+
+            switch(currentAssignmentType) {
+                case 'essay':
+                    html = `
+                        <h2>Essay / Report / Case Study (External Tools)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Brainstorming and outlining</h3>
+                            <ul>
+                                <li>"Suggest angles on [topic] — what's missing from the mainstream view?"</li>
+                                <li>"What are common structures for essays on [theme]?"</li>
+                                <li>"How could I group these themes logically?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Research synthesis</h3>
+                            <ul>
+                                <li>"Give me different positions on [issue] — who argues what? Please provide accurate sources."</li>
+                                <li>"What are critiques of [theory or concept]? Can you help me find their key works?"</li>
+                                <li>"Help me compare two opposing views without oversimplifying."</li>
+                                <li><strong>"Double-check any sources provided - AI often creates fake citations."</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>"What assumptions am I relying on here?"</li>
+                                <li>"Is my evidence convincing or surface-level?"</li>
+                                <li>"How would someone with a different worldview respond?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <p><em>(can use University-approved tools like Studiosity)</em></p>
+                            <ul>
+                                <li>"Check this paragraph for clarity — don't rewrite, just suggest edits."</li>
+                                <li>"What parts of this feel repetitive or vague?"</li>
+                                <li>"Does this line add to or weaken my argument?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>CAUTION:</strong> Don't paste full drafts or readings. Summarise instead. Use <em>role-playing prompts</em> (e.g. "Act as a writing coach…") to keep authorship clear and protect your work. <strong>Always fact-check AI responses - external tools frequently provide inaccurate information.</strong>
+                        </div>
+                    `;
+                    break;
+
+                case 'group':
+                    html = `
+                        <h2>Group Presentation (External Tools)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Content organisation</h3>
+                            <ul>
+                                <li>"What are some engaging ways to start or finish [topic]?"</li>
+                                <li>"How could we divide this topic into distinct but connected parts?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>"Any ideas for visuals that could bring this discussion to life?"</li>
+                                <li>"What are some delivery techniques to hold attention?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>"Make this bullet point easier to explain out loud."</li>
+                                <li>"Check this for jargon — is it clear to a general audience?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>CAUTION:</strong> Don't generate full scripts. Keep it human, check with your group, and rehearse together.
+                        </div>
+                    `;
+                    break;
+
+                case 'visual':
+                    html = `
+                        <h2>Visual Presentation (External Tools)</h2>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Concept and structure</h3>
+                            <ul>
+                                <li>"Do you have any suggestions for 2–3 ways to visualise this idea clearly?"</li>
+                                <li>"Which idea should I lead with to make an impact?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>"Could this example be misread out of context?"</li>
+                                <li>"Where should I slow down and explain more?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>"Is this slide too crowded or hard on the eye?"</li>
+                                <li>"Does this order build understanding or feel jumbled?"</li>
+                                <li>"How could this slide better connect with the viewer?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>CAUTION:</strong> Never use AI art or design tools to replicate cultural imagery or symbols. Use the tools to test, iterate, and reflect — notice what works, what doesn't, and what you're learning through the process. <strong>Verify any factual claims AI suggests for your slides.</strong>
+                        </div>
+                    `;
+                    break;
+
+                case 'reflection':
+                    html = `
+                        <h2>Critical Reflection (External Tools)</h2>
+                        <p><strong>Be mindful of what you want to put out there about yourself.</strong></p>
+                        
+                        <div class="guidance-section">
+                            <h3>Important Principle</h3>
+                            <p><strong>No matter your prompt, ask the system to provide an explanation for its answer. Think about what it provided.</strong></p>
+                        </div>
+                        
+                        <div class="guidance-section">
+                            <h3>Framing and focus</h3>
+                            <ul>
+                                <li>"What part of this learning experience actually challenged me?"</li>
+                                <li>"Is this showing growth, or just retelling events?"</li>
+                                <li>"How can I explain my shift without overstating it?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Thinking partner</h3>
+                            <ul>
+                                <li>"Where could I connect this insight to a scholar or reading?"</li>
+                                <li>"What's a respectful way to describe this person or experience in context?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="guidance-section">
+                            <h3>Writing critic</h3>
+                            <ul>
+                                <li>"Am I using the reading to deepen the point — or to avoid saying it myself?"</li>
+                                <li>"Does this structure show development of ideas?"</li>
+                                <li>"What parts still feel disconnected?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>CAUTION:</strong> AI can't reflect on your learning — only you can. Use it to refine your structure, not shape your truth.
+                        </div>
+                    `;
+                    break;
+            }
+
+            html += `
+                <div class="attribution-box">
+                    <h4>Remember to acknowledge your use:</h4>
+                    <div class="attribution-template">
+                        <strong>I acknowledge my use of [insert tool name + (access link)] to [state how you've used the tool]. The prompt I used was: [include prompt]. I then [specific mention of any additional use, edits, or changes you've made].</strong>
+                    </div>
+                </div>
+            `;
+
+            content.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

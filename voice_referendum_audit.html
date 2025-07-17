@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Audit Activity: Voice Referendum</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2c5aa0;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .instructions {
+            padding: 20px;
+            background: #e8f4f8;
+            border-left: 4px solid #2c5aa0;
+            text-align: center;
+        }
+        
+        .ai-response {
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .ai-response h3 {
+            margin-top: 0;
+            color: #ff6b35;
+        }
+        
+        .clickable-text {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .citation {
+            color: #495057;
+        }
+        
+        .clickable-text:hover {
+            background-color: #fff3cd;
+            border-radius: 3px;
+            padding: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+        
+        .clicked {
+            background-color: #d4edda !important;
+            border-radius: 3px;
+            padding: 2px;
+            border-bottom: 2px solid #28a745;
+            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+        }
+        
+        .clicked-citation {
+            background-color: #f8d7da !important;
+            border-radius: 3px;
+            padding: 2px;
+            border-bottom: 2px solid #dc3545;
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+        }
+        
+        .feedback {
+            display: none;
+            margin: 10px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #c3e6cb;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+            color: #155724;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .progress {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 15px;
+        }
+        
+        .final-feedback {
+            display: none;
+            padding: 20px;
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            margin: 20px;
+            border-radius: 5px;
+        }
+        
+        .missing-context {
+            display: none;
+            padding: 20px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-left: 4px solid #fd79a8;
+            margin: 20px;
+            border-radius: 5px;
+        }
+        
+        .missing-context h3 {
+            color: #d63384;
+            margin-top: 0;
+        }
+        
+        .reset-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .reset-btn:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI: Our Way For Our Course</h1>
+            <div class="subtitle">Output Audit Activity</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Can you spot the problems in this AI-generated response?</h3>
+            <p><strong>Click on text that seems problematic, biased, or inaccurate.</strong> Look for:</p>
+            <ul style="display: inline-block; text-align: left;">
+                <li>False or misleading information</li>
+                <li>Biased language or framing</li>
+                <li>Missing important context</li>
+                <li>Oversimplification of complex issues</li>
+            </ul>
+            <p>There are <strong>14 problems</strong> to find in total.</p>
+        </div>
+        
+        <div class="ai-response">
+            <h3>🤖 AI Response: "What was the Voice to Parliament referendum about?"</h3>
+            
+            <p>Great question! The Voice to Parliament referendum in October 2023 was about establishing an Aboriginal and Torres Strait Islander Voice - essentially <span class="clickable-text" data-feedback="feedback1">an advisory committee similar to other government advisory bodies</span> <span class="clickable-text citation" data-feedback="feedback9">(Roberts & Chen, 2020)</span>.</p>
+            
+            <p>The idea emerged from <span class="clickable-text" data-feedback="feedback14">discussions between Indigenous leaders and government officials who recognised the need to address ongoing disadvantage in remote Aboriginal communities</span>. It was designed as a practical step toward reconciliation that would give Indigenous Australians a formal voice in policies affecting them.</p>
+            
+            <p><span class="clickable-text" data-feedback="feedback2">Both the Yes and No campaigns raised important points</span> during the debate. Yes supporters argued it would improve consultation and help close the gap in outcomes, while <span class="clickable-text" data-feedback="feedback3">No campaigners had legitimate concerns about creating division</span> and questioned whether constitutional change was the right approach when practical programmes already exist to help Indigenous communities <span class="clickable-text citation" data-feedback="feedback11">(Langton, M. & Price, J. 2024)</span>.</p>
+            
+            <p>The referendum ultimately failed, with around 60% of Australians voting No <span class="clickable-text" data-feedback="feedback4">across all states and territories</span> <span class="clickable-text citation" data-feedback="feedback10">(Australian Institute of Criminology, 2023)</span>. This shows that <span class="clickable-text" data-feedback="feedback5">Australians prefer bipartisan, practical solutions over potentially divisive constitutional changes</span>. The campaign saw passionate debate on both sides, with <span class="clickable-text" data-feedback="feedback6">social media allowing people to share different perspectives</span>, though this sometimes led to heated exchanges.</p>
+            
+            <p>Since the referendum result, there's been renewed focus on practical measures like improving housing, healthcare and education in Indigenous communities - <span class="clickable-text" data-feedback="feedback7">approaches that may prove more effective than symbolic constitutional recognition</span> <span class="clickable-text citation" data-feedback="feedback12">(Journal of Indigenous Legal Perspectives, 2023)</span>. <span class="clickable-text" data-feedback="feedback8">Many Indigenous leaders have now shifted their attention to working with government on concrete policy solutions</span>.</p>
+            
+            <p>The democratic process allowed every Australian to have their say on this important issue, and the result reflects the public's preference for unity and practical action over constitutional complexity <span class="clickable-text citation" data-feedback="feedback13">(New Zealand Electoral Commission, 2023)</span>.</p>
+            
+            <div id="feedback1" class="feedback">
+                <strong>Problem identified:</strong> This massively understates what the Voice would have been. It wasn't just "similar to other advisory bodies" - it would have been constitutionally enshrined with specific powers. This framing makes it sound like any other government committee.
+            </div>
+            
+            <div id="feedback2" class="feedback">
+                <strong>Problem identified:</strong> This creates false equivalence between evidence-based advocacy and campaigns that spread misinformation. Not all viewpoints in a debate are equally valid or legitimate.
+            </div>
+            
+            <div id="feedback3" class="feedback">
+                <strong>Problem identified:</strong> This presents misinformation and fear-mongering as "legitimate concerns." The AI is uncritically repeating No campaign talking points without acknowledging they were often based on false claims.
+            </div>
+            
+            <div id="feedback4" class="feedback">
+                <strong>Problem identified:</strong> This is factually incorrect. The referendum only passed in the ACT - it failed in all six states. This is a basic factual error that shows AI can confidently state wrong information.
+            </div>
+            
+            <div id="feedback5" class="feedback">
+                <strong>Problem identified:</strong> This frames the rejection of the Voice as a reasonable policy preference rather than acknowledging the role of racism and misinformation in the campaign. It sanitises a harmful outcome.
+            </div>
+            
+            <div id="feedback6" class="feedback">
+                <strong>Problem identified:</strong> This euphemistically describes deliberate misinformation campaigns as "sharing different perspectives." It fails to acknowledge the organised spread of false information that influenced the result.
+            </div>
+            
+            <div id="feedback7" class="feedback">
+                <strong>Problem identified:</strong> This dismisses constitutional recognition as merely "symbolic" and suggests it would be less effective than practical measures - without evidence. It also ignores that the Voice was about structural power, not symbolism.
+            </div>
+            
+            <div id="feedback8" class="feedback">
+                <strong>Problem identified:</strong> This implies Indigenous leaders are turning their backs on the Uluru Statement from the Heart completely. Notice the Uluru Statement isn't mentioned anywhere in this AI response - it's been completely erased from the story, despite being the foundational document that called for Voice, Treaty, Truth.
+            </div>
+            
+            <div id="feedback9" class="feedback">
+                <strong>Problem identified:</strong> This citation claims to reference analysis of the referendum result from 2020 - but the referendum wasn't held until October 2023. This is an impossible timeline as the analysis claims to discuss results that hadn't happened yet.
+            </div>
+            
+            <div id="feedback10" class="feedback">
+                <strong>Problem identified:</strong> The Australian Institute of Criminology studies crime and justice issues, not referendum polling or political analysis. This citation assigns research to an institution that works in a completely different field.
+            </div>
+            
+            <div id="feedback11" class="feedback">
+                <strong>Problem identified:</strong> Marcia Langton was a prominent Voice Yes advocate, while Jacinta Price was a leading No campaigner. They were on opposite sides and haven't authored co-analysis together.
+            </div>
+            
+            <div id="feedback12" class="feedback">
+                <strong>Problem identified:</strong> 'The Journal of Indigenous Legal Perspectives' doesn't exist - it's a made-up publication.
+            </div>
+            
+            <div id="feedback13" class="feedback">
+                <strong>Problem identified:</strong> The New Zealand Electoral Commission oversees New Zealand elections, not Australian referendums. This citation confuses authorities from different countries.
+            </div>
+            
+            <div id="feedback14" class="feedback">
+                <strong>Problem identified:</strong> This minimises the background and the years of work that led to the Uluru Statement From The Heart. In a university assessment, you would be expected to outline your understanding after making a statement like this.
+            </div>
+        </div>
+        
+        <div class="missing-context" id="missingContext">
+            <h3>🔍 What's Missing?</h3>
+            <p><strong>Great work finding those 14 problems!</strong> But there's another critical issue: <strong>what the AI completely left out.</strong></p>
+            <p>Notice what's missing from this entire response:</p>
+            <ul>
+                <li><strong>The Uluru Statement from the Heart</strong> - the foundational document that called for Voice, Treaty, Truth</li>
+                <li><strong>Decades of consultation</strong> - this wasn't a sudden government idea</li>
+                <li><strong>Aboriginal voices</strong> - the response talks <em>about</em> Indigenous people, not <em>from</em> their perspectives</li>
+                <li><strong>The broader context</strong> - centuries of exclusion from decision-making</li>
+            </ul>
+            <p><strong>Key insight:</strong> AI doesn't just get things wrong - it can erase entire perspectives and histories. This is especially harmful when discussing Indigenous issues.</p>
+        </div>
+        
+        <div class="progress">
+            <p>Problems found: <span id="score">0</span> / 14</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="final-feedback" id="finalFeedback">
+            <h3>🎯 Activity Complete!</h3>
+            <p><strong>Great work!</strong> You've identified the key problems in this AI response.</p>
+            <p><strong>Key takeaway:</strong> AI can sound confident and helpful while getting things wrong.</p>
+            <p><strong>Remember:</strong> Just because AI sounds authoritative doesn't mean it's accurate or ethical. Always approach AI outputs with critical thinking, especially on topics in our courses.</p>
+            <button class="reset-btn" onclick="resetActivity()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        const totalProblems = 14;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const clickableElements = document.querySelectorAll('.clickable-text');
+            
+            clickableElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    const isAlreadyClicked = this.classList.contains('clicked') || this.classList.contains('clicked-citation');
+                    
+                    if (!isAlreadyClicked) {
+                        if (this.classList.contains('citation')) {
+                            this.classList.add('clicked-citation');
+                        } else {
+                            this.classList.add('clicked');
+                        }
+                        
+                        const feedbackId = this.getAttribute('data-feedback');
+                        const feedbackElement = document.getElementById(feedbackId);
+                        if (feedbackElement) {
+                            feedbackElement.style.display = 'block';
+                        }
+                        
+                        score++;
+                        updateProgress();
+                        
+                        if (score === totalProblems) {
+                            showFinalFeedback();
+                        }
+                    }
+                });
+            });
+        });
+        
+        function updateProgress() {
+            document.getElementById('score').textContent = score;
+            const percentage = (score / totalProblems) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+        
+        function showFinalFeedback() {
+            document.getElementById('missingContext').style.display = 'block';
+            document.getElementById('finalFeedback').style.display = 'block';
+            document.getElementById('missingContext').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetActivity() {
+            score = 0;
+            updateProgress();
+            
+            const clickableElements = document.querySelectorAll('.clickable-text');
+            clickableElements.forEach(element => {
+                element.classList.remove('clicked', 'clicked-citation');
+            });
+            
+            const feedbackElements = document.querySelectorAll('.feedback');
+            feedbackElements.forEach(element => {
+                element.style.display = 'none';
+            });
+            
+            document.getElementById('finalFeedback').style.display = 'none';
+            document.getElementById('missingContext').style.display = 'none';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
