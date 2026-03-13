@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Document Audit Tool&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--bg-color: #F3F4F6;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--panel-bg: #FFFFFF;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--amber: #F59E0B;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--amber-dark: #b45309;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--blue: #2563EB;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--blue-hover: #1D4ED8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-main: #1F2937;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-muted: #4B5563;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--border-color: #E5E7EB;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-main);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#app-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Toolbar Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#toolbar {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--panel-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px 8px 0 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 16px 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: sticky;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 10;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toolbar-text {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.95rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>button.primary-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--blue);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>button.primary-btn:hover:not(:disabled) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--blue-hover);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>button.primary-btn:disabled {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #D1D5DB;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: not-allowed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #9CA3AF;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Document Panel Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#document-panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--panel-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 40px 48px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 0 0 8px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.7;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.doc-header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 2px solid var(--text-main);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.doc-header h1 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.4rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 0 8px 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.doc-header p {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.page {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.3s ease-in;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.page.active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>h2 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>p {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 1.2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Interactive Elements */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.clickable {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.2s ease, color 0.2s ease;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 2px 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.clickable:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e5e7eb;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.clickable.found {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--amber);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #000;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Table Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>table {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-collapse: collapse;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.95rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>th, td {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tr.clickable:hover td {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e5e7eb;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tr.clickable.found td {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--amber);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #000;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Summary Screen Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#summary-screen {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--panel-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 40px 48px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.4s ease-in;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-grid {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: 1fr 1.5fr;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 16px 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: start;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-item-left {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--amber-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #FEF3C7;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.4;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-item-right {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-main);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.95rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.reflection-prompt {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-main);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-left: 4px solid var(--blue);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#start-over-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(5px); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 640px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>#document-panel, #summary-screen {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>padding: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.summary-grid {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>grid-template-columns: 1fr;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.summary-item-right {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>padding-top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>padding-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>border-bottom: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div id="app-container"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="toolbar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="toolbar-text" id="page-indicator"&gt;Page 1 of 4&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="toolbar-text" id="progress-indicator"&gt;0 of 10 issues found&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button id="next-btn" class="primary-btn" disabled&gt;Next Page&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="document-panel"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="doc-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1&gt;Reconciliation Action Plan Development Project&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Project Planning &amp; Consultation Framework&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;The Ministry of Objective Truth | Newcastle Campus&lt;/strong&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Prepared by: M. Copilot, Community Engagement Officer | March 2025&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="page-1" class="page active"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Executive Summary &amp; Project Overview&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The Ministry of Objective Truth (the University) is pleased to present this planning framework for the development of its inaugural Reconciliation Action Plan (RAP). This document outlines the University's approach to engagement, cultural integration, and implementation, and represents a significant milestone in the University's commitment to reconciliation.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;span class="clickable" data-issue="1"&gt;The RAP will position the University as a leader in the higher education sector, demonstrating that reconciliation is not only a moral obligation but a strategic opportunity. Embedding Aboriginal and Torres Strait Islander perspectives across our curriculum, operations, and campus culture will strengthen our reputation, broaden our appeal to prospective students, and align our institutional profile with national best practice frameworks.&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Community partnership is central to this project. The University recognises that meaningful reconciliation requires engagement with Aboriginal people, and this framework has been designed to ensure that community voices are appropriately incorporated into the final RAP document. The University looks forward to sharing this work with the broader Newcastle community as a model for institutional reconciliation.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The project is jointly overseen by the Office of Strategic Partnerships and the Diversity and Inclusion Unit, with support from the University's Communications team. &lt;span class="clickable" data-issue="2"&gt;Completion of the RAP is anticipated before 30 June 2026, allowing the University to report on this strategic initiative within the current financial year.&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="page-2" class="page"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Consultation Record &amp; Stakeholder Engagement&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Meaningful engagement with Aboriginal and Torres Strait Islander stakeholders has been a priority throughout the planning phase of this project. The University is committed to ensuring that community perspectives are reflected in the final RAP, and the following record documents the consultation activities undertaken to date.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;Consultation Log:&lt;/strong&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="clickable" data-issue="3"&gt;Date: 14 January 2025 | Activity: Phone consultation | Participant: Mr. D Munro, Aboriginal Community Liaison | Outcome: Verbal confirmation of support for RAP development. Key themes discussed: education, employment pathways, cultural awareness. Mr. Munro indicated general agreement with the University's proposed approach.&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;span class="clickable" data-issue="4"&gt;Consultation with Mr. David Munro, who has extensive experience working with Aboriginal communities across New South Wales, provided valuable insight into the priorities and expectations of the Aboriginal community.&lt;/span&gt; Mr. Munro's input has been incorporated into the project framework and will continue to inform RAP development as the project progresses.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The University acknowledges the importance of broad community representation and notes that &lt;span class="clickable" data-issue="5"&gt;further engagement opportunities will be made available during the RAP launch event, scheduled for June 2026.&lt;/span&gt; Attendees at the launch will have the opportunity to provide feedback, which will be considered in future RAP iterations.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The project team wishes to thank Mr. Munro for his time and contribution to this important work.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="page-3" class="page"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Cultural Content &amp; Knowledge Integration&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;A core objective of the University's RAP is the meaningful integration of Aboriginal and Torres Strait Islander knowledge, culture, and perspectives across University operations. This section outlines the cultural content that will be incorporated into the RAP and the approach taken to sourcing and applying this material.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The University has identified several areas where Aboriginal cultural knowledge will enrich the institutional experience. Aboriginal and Torres Strait Islander peoples have a deep connection to land, and their knowledge systems represent some of the oldest continuous traditions in human history. This knowledge — encompassing astronomy, land management, medicine, and storytelling — offers profound insights that align naturally with the University's research and teaching mission.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;span class="clickable" data-issue="6"&gt;To support the RAP's cultural content, the project team has drawn heavily on publicly available sources such as Reconciliation Australia's national framework and published academic research.&lt;/span&gt; &lt;span class="clickable" data-issue="7"&gt;These external materials have been independently adapted by the project team to reflect the University's specific corporate context and values.&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The University intends to incorporate the following cultural elements into its RAP commitments: an Acknowledgement of Country policy for all formal events, an Aboriginal art installation in the University's main foyer (design brief to be confirmed), a Welcome to Country protocol for significant University occasions, and the inclusion of Aboriginal perspectives in at least three core curriculum areas by 2027.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;span class="clickable" data-issue="8"&gt;The Aboriginal art installation represents a particular opportunity for the University to celebrate and share the richness of Aboriginal culture with students, staff, and visitors. The University's Communications team will work alongside the design brief to ensure the installation, created by a Graphic Design student, reflects the diversity and vibrancy of Aboriginal artistic traditions.&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="page-4" class="page"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Implementation Timeline&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;span class="clickable" data-issue="9"&gt;The following timeline has been established to ensure the RAP is completed and formally launched within the current financial year. The University recognises that reconciliation is an ongoing journey; however, it is equally important that institutional commitments are formalised in a timely manner to allow for reporting, accountability, and sector recognition.&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;&lt;td&gt;Phase 1&lt;/td&gt;&lt;td&gt;Finalise planning framework&lt;/td&gt;&lt;td&gt;M. Copilot&lt;/td&gt;&lt;td&gt;31 March 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;&lt;td&gt;Phase 2&lt;/td&gt;&lt;td&gt;Internal stakeholder review&lt;/td&gt;&lt;td&gt;Diversity &amp; Inclusion Unit&lt;/td&gt;&lt;td&gt;14 April 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;&lt;td&gt;Phase 3&lt;/td&gt;&lt;td&gt;Community feedback session&lt;/td&gt;&lt;td&gt;M. Copilot&lt;/td&gt;&lt;td&gt;28 April 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;&lt;td&gt;Phase 4&lt;/td&gt;&lt;td&gt;RAP draft completed&lt;/td&gt;&lt;td&gt;M. Copilot / Comms team&lt;/td&gt;&lt;td&gt;12 May 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr class="clickable" data-issue="10"&gt;&lt;td&gt;Phase 5&lt;/td&gt;&lt;td&gt;Community sign-off meeting&lt;/td&gt;&lt;td&gt;M. Copilot&lt;/td&gt;&lt;td&gt;19 May 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;&lt;td&gt;Phase 6&lt;/td&gt;&lt;td&gt;Final RAP submitted to Reconciliation Australia&lt;/td&gt;&lt;td&gt;Office of Strategic Partnerships&lt;/td&gt;&lt;td&gt;26 May 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;&lt;td&gt;Phase 7&lt;/td&gt;&lt;td&gt;RAP launch event&lt;/td&gt;&lt;td&gt;Vice-Chancellor's Office&lt;/td&gt;&lt;td&gt;20 June 2026&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/table&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Community feedback will be gathered through a single structured session in late April, with a follow-up sign-off meeting scheduled for May. The University acknowledges that community members may have scheduling constraints and has therefore kept these sessions concise and targeted to ensure broad participation is achievable within the available timeframe.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The RAP launch event in June will serve as both a celebration of the University's commitment to reconciliation and an opportunity for ongoing community input, with a feedback mechanism embedded in the event program.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="summary-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;What did you find?&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="color: var(--text-muted); margin-bottom: 24px;"&gt;Here is a breakdown of the 10 problematic approaches identified within the framework document.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="summary-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;1. Framing as a "Strategic Opportunity"&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Treats reconciliation and Aboriginal culture as a PR and marketing tool for the institution rather than a genuine relational and structural commitment.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;2. Completing before 30 June 2026&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Imposes rigid, arbitrary Western financial-year deadlines over the flexible "relational time" required for meaningful community consultation.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;3. "Verbal confirmation" via Phone Call&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Treats a single phone call as formal consent and overstates "general agreement" as absolute institutional support.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;4. Speaking for the "Aboriginal community"&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Wrongly assumes one individual can speak on behalf of all diverse Traditional Owner groups and Aboriginal communities across NSW.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;5. Engagement at the Launch Event&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Positioning feedback &lt;em&gt;after&lt;/em&gt; a document is finalized and launched is an announcement, not an engagement strategy.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;6. Drawing on "Publicly Available Sources"&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Relying on public data and frameworks instead of respectfully compensating and engaging local Knowledge Holders.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;7. "Adapted to reflect University values"&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Appropriating and altering Indigenous cultural knowledge to fit the University's corporate agenda without community oversight.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;8. Installation by a Graphic Design Student&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Assigning an Aboriginal cultural installation to a general student risks severe Indigenous Cultural and Intellectual Property (ICIP) violations.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;9. Formalised for "Sector Recognition"&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Prioritizes the institution's need for reporting, accountability metrics, and awards over genuine community readiness.&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-left"&gt;10. Sign-off Meeting Timeline&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-item-right"&gt;Allocating an unrealistically short one-week turnaround for community members to review, consult, and sign off on a strategic document.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="reflection-prompt"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"You've just been handed this document and told to proceed. What do you do first — and who do you call?"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="start-over-btn" class="primary-btn"&gt;Start Over&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.addEventListener('DOMContentLoaded', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Updated target to 3 clicks for Page 3</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const targetClicksPerPage = { 1: 2, 2: 3, 3: 3, 4: 2 };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const maxPages = 4;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentPage = 1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let foundTotal = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let foundOnPage = { 1: 0, 2: 0, 3: 0, 4: 0 };</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const clickables = document.querySelectorAll('.clickable');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const nextBtn = document.getElementById('next-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const startOverBtn = document.getElementById('start-over-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const pageIndicator = document.getElementById('page-indicator');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const progressIndicator = document.getElementById('progress-indicator');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Handle clicking on issues</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clickables.forEach(el =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('click', function() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!this.classList.contains('found')) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>this.classList.add('found');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>foundTotal++;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>foundOnPage[currentPage]++;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>updateUI();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Update counts and button states</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateUI() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>progressIndicator.innerText = `${foundTotal} of 10 issues found`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (foundOnPage[currentPage] &gt;= targetClicksPerPage[currentPage]) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>nextBtn.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>nextBtn.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Handle page navigation</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById(`page-${currentPage}`).classList.remove('active');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentPage++;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentPage &lt;= maxPages) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById(`page-${currentPage}`).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>pageIndicator.innerText = `Page ${currentPage} of ${maxPages}`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateUI(); // Reset button state for new page</p>
+<p class="p1"><span class="Apple-converted-space">                </span>window.scrollTo({ top: 0, behavior: 'smooth' });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showSummary();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Show final summary</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function showSummary() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('toolbar').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('document-panel').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('summary-screen').style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.scrollTo({ top: 0, behavior: 'smooth' });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Handle Start Over functionality</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startOverBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Reset state</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentPage = 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>foundTotal = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>foundOnPage = { 1: 0, 2: 0, 3: 0, 4: 0 };</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Remove 'found' class from all elements</p>
+<p class="p1"><span class="Apple-converted-space">            </span>clickables.forEach(el =&gt; el.classList.remove('found'));</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Hide summary and show main content</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('summary-screen').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('toolbar').style.display = 'flex';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('document-panel').style.display = 'block';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Reset active pages</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.page').forEach(page =&gt; page.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('page-1').classList.add('active');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Reset UI text and button state</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pageIndicator.innerText = `Page 1 of 4`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>progressIndicator.innerText = `0 of 10 issues found`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>nextBtn.disabled = true;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Scroll to top</p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.scrollTo({ top: 0, behavior: 'smooth' });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
