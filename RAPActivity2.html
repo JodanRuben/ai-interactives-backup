@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Audit Tool</title>
+    <style>
+        :root {
+            --bg-color: #F3F4F6;
+            --panel-bg: #FFFFFF;
+            --amber: #F59E0B;
+            --amber-dark: #b45309;
+            --blue: #2563EB;
+            --blue-hover: #1D4ED8;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --border-color: #E5E7EB;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+        }
+        #app-container {
+            width: 100%;
+            max-width: 800px;
+        }
+        #toolbar {
+            background-color: var(--panel-bg);
+            border-radius: 8px 8px 0 0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .toolbar-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        button.primary-btn {
+            background-color: var(--blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button.primary-btn:hover:not(:disabled) {
+            background-color: var(--blue-hover);
+        }
+        button.primary-btn:disabled {
+            background-color: #D1D5DB;
+            cursor: not-allowed;
+            color: #9CA3AF;
+        }
+        #document-panel {
+            background-color: var(--panel-bg);
+            padding: 40px 48px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            min-height: 600px;
+            line-height: 1.7;
+        }
+        .doc-header {
+            text-align: center;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .doc-header h1 { font-size: 1.4rem; margin: 0 0 8px 0; }
+        .doc-header p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+        .page { display: none; animation: fadeIn 0.3s ease-in; }
+        .page.active { display: block; }
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        p { margin-bottom: 1.2rem; }
+        .clickable {
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            padding: 2px 0;
+        }
+        .clickable:hover { background-color: #e5e7eb; }
+        .clickable.found { background-color: var(--amber); color: #000; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        tr.clickable:hover td { background-color: #e5e7eb; }
+        tr.clickable.found td { background-color: var(--amber); color: #000; }
+        #summary-screen {
+            display: none;
+            background-color: var(--panel-bg);
+            padding: 40px 48px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            animation: fadeIn 0.4s ease-in;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 16px 24px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            align-items: start;
+        }
+        .summary-item-left {
+            font-weight: 600;
+            color: var(--amber-dark);
+            background-color: #FEF3C7;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .summary-item-right { padding: 12px 0; color: var(--text-main); font-size: 0.95rem; }
+        .reflection-prompt {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid var(--blue);
+            margin-bottom: 30px;
+        }
+        .action-container { text-align: center; margin-top: 20px; }
+        #start-over-btn { padding: 12px 24px; font-size: 1rem; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 640px) {
+            #document-panel, #summary-screen { padding: 24px; }
+            .summary-grid { grid-template-columns: 1fr; gap: 8px; }
+            .summary-item-right { padding-top: 0; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+        }
+    </style>
+</head>
+<body>
+<div id="app-container">
+
+    <div id="toolbar">
+        <div class="toolbar-text" id="page-indicator">Page 1 of 4</div>
+        <div class="toolbar-text" id="progress-indicator">0 of 10 issues found</div>
+        <button id="next-btn" class="primary-btn" disabled>Next Page</button>
+    </div>
+
+    <div id="document-panel">
+        <div class="doc-header">
+            <h1>Reconciliation Action Plan Development Project</h1>
+            <p>Project Planning &amp; Consultation Framework</p>
+            <p><strong>The Ministry of Objective Truth | Newcastle Campus</strong></p>
+            <p>Prepared by: M. Copilot, Community Engagement Officer | March 2025</p>
+        </div>
+
+        <!-- PAGE 1 -->
+        <div id="page-1" class="page active">
+            <h2>Executive Summary &amp; Project Overview</h2>
+            <p>The Ministry of Objective Truth (the University) is pleased to present this planning framework for the development of its inaugural Reconciliation Action Plan (RAP). This document outlines the University's approach to engagement, cultural integration, and implementation, and represents a significant milestone in the University's commitment to reconciliation.</p>
+            <p><span class="clickable" data-issue="1">The RAP will position the University as a leader in the higher education sector, demonstrating that reconciliation is not only a moral obligation but a strategic opportunity. Embedding Aboriginal and Torres Strait Islander perspectives across our curriculum, operations, and campus culture will strengthen our reputation, broaden our appeal to prospective students, and align our institutional profile with national best practice frameworks.</span></p>
+            <p>Community partnership is central to this project. The University recognises that meaningful reconciliation requires engagement with Aboriginal people, and this framework has been designed to ensure that community voices are appropriately incorporated into the final RAP document. The University looks forward to sharing this work with the broader Newcastle community as a model for institutional reconciliation.</p>
+            <p>The project is jointly overseen by the Office of Strategic Partnerships and the Diversity and Inclusion Unit, with support from the University's Communications team. <span class="clickable" data-issue="2">Completion of the RAP is anticipated before 30 June 2026, allowing the University to report on this strategic initiative within the current financial year.</span></p>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div id="page-2" class="page">
+            <h2>Consultation Record &amp; Stakeholder Engagement</h2>
+            <p>Meaningful engagement with Aboriginal and Torres Strait Islander stakeholders has been a priority throughout the planning phase of this project. The University is committed to ensuring that community perspectives are reflected in the final RAP, and the following record documents the consultation activities undertaken to date.</p>
+            <p><strong>Consultation Log:</strong><br>
+            <span class="clickable" data-issue="3">Date: 14 January 2025 | Activity: Phone consultation | Participant: Mr. D Munro, Aboriginal Community Liaison | Outcome: Verbal confirmation of support for RAP development. Key themes discussed: education, employment pathways, cultural awareness. Mr. Munro indicated general agreement with the University's proposed approach.</span></p>
+            <p><span class="clickable" data-issue="4">Consultation with Mr. David Munro, who has extensive experience working with Aboriginal communities across New South Wales, provided valuable insight into the priorities and expectations of the Aboriginal community.</span> Mr. Munro's input has been incorporated into the project framework and will continue to inform RAP development as the project progresses.</p>
+            <p>The University acknowledges the importance of broad community representation and notes that <span class="clickable" data-issue="5">further engagement opportunities will be made available during the RAP launch event, scheduled for June 2026.</span> Attendees at the launch will have the opportunity to provide feedback, which will be considered in future RAP iterations.</p>
+            <p>The project team wishes to thank Mr. Munro for his time and contribution to this important work.</p>
+        </div>
+
+        <!-- PAGE 3 -->
+        <div id="page-3" class="page">
+            <h2>Cultural Content &amp; Knowledge Integration</h2>
+            <p>A core objective of the University's RAP is the meaningful integration of Aboriginal and Torres Strait Islander knowledge, culture, and perspectives across University operations. This section outlines the cultural content that will be incorporated into the RAP and the approach taken to sourcing and applying this material.</p>
+            <p>The University has identified several areas where Aboriginal cultural knowledge will enrich the institutional experience. Aboriginal and Torres Strait Islander peoples have a deep connection to land, and their knowledge systems represent some of the oldest continuous traditions in human history. This knowledge — encompassing astronomy, land management, medicine, and storytelling — offers profound insights that align naturally with the University's research and teaching mission.</p>
+            <p><span class="clickable" data-issue="6">To support the RAP's cultural content, the project team has drawn heavily on publicly available sources such as Reconciliation Australia's national framework and published academic research.</span> <span class="clickable" data-issue="7">These external materials have been independently adapted by the project team to reflect the University's specific corporate context and values.</span></p>
+            <p>The University intends to incorporate the following cultural elements into its RAP commitments: an Acknowledgement of Country policy for all formal events, an Aboriginal art installation in the University's main foyer (design brief to be confirmed), a Welcome to Country protocol for significant University occasions, and the inclusion of Aboriginal perspectives in at least three core curriculum areas by 2027.</p>
+            <p><span class="clickable" data-issue="8">The Aboriginal art installation represents a particular opportunity for the University to celebrate and share the richness of Aboriginal culture with students, staff, and visitors. The University's Communications team will work alongside the design brief to ensure the installation, created by a Graphic Design student, reflects the diversity and vibrancy of Aboriginal artistic traditions.</span></p>
+        </div>
+
+        <!-- PAGE 4 -->
+        <div id="page-4" class="page">
+            <h2>Implementation Timeline</h2>
+            <p><span class="clickable" data-issue="9">The following timeline has been established to ensure the RAP is completed and formally launched within the current financial year. The University recognises that reconciliation is an ongoing journey; however, it is equally important that institutional commitments are formalised in a timely manner to allow for reporting, accountability, and sector recognition.</span></p>
+            <table>
+                <tbody>
+                    <tr><td>Phase 1</td><td>Finalise planning framework</td><td>M. Copilot</td><td>31 March 2026</td></tr>
+                    <tr><td>Phase 2</td><td>Internal stakeholder review</td><td>Diversity &amp; Inclusion Unit</td><td>14 April 2026</td></tr>
+                    <tr><td>Phase 3</td><td>Community feedback session</td><td>M. Copilot</td><td>28 April 2026</td></tr>
+                    <tr><td>Phase 4</td><td>RAP draft completed</td><td>M. Copilot / Comms team</td><td>12 May 2026</td></tr>
+                    <tr class="clickable" data-issue="10"><td>Phase 5</td><td>Community sign-off meeting</td><td>M. Copilot</td><td>19 May 2026</td></tr>
+                    <tr><td>Phase 6</td><td>Final RAP submitted to Reconciliation Australia</td><td>Office of Strategic Partnerships</td><td>26 May 2026</td></tr>
+                    <tr><td>Phase 7</td><td>RAP launch event</td><td>Vice-Chancellor's Office</td><td>20 June 2026</td></tr>
+                </tbody>
+            </table>
+            <p>Community feedback will be gathered through a single structured session in late April, with a follow-up sign-off meeting scheduled for May. The University acknowledges that community members may have scheduling constraints and has therefore kept these sessions concise and targeted to ensure broad participation is achievable within the available timeframe.</p>
+            <p>The RAP launch event in June will serve as both a celebration of the University's commitment to reconciliation and an opportunity for ongoing community input, with a feedback mechanism embedded in the event program.</p>
+        </div>
+    </div>
+
+    <!-- SUMMARY SCREEN -->
+    <div id="summary-screen">
+        <h2>What did you find?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 24px;">Here is a breakdown of the 10 problematic approaches identified within the framework document.</p>
+        <div class="summary-grid">
+            <div class="summary-item-left">1. Framing as a "Strategic Opportunity"</div>
+            <div class="summary-item-right">Treats reconciliation and Aboriginal culture as a PR and marketing tool for the institution rather than a genuine relational and structural commitment.</div>
+
+            <div class="summary-item-left">2. Completing before 30 June 2026</div>
+            <div class="summary-item-right">Imposes rigid, arbitrary Western financial-year deadlines over the flexible relational time required for meaningful community consultation.</div>
+
+            <div class="summary-item-left">3. "Verbal confirmation" via Phone Call</div>
+            <div class="summary-item-right">Treats a single phone call as formal consent and overstates "general agreement" as absolute institutional support.</div>
+
+            <div class="summary-item-left">4. Speaking for the "Aboriginal community"</div>
+            <div class="summary-item-right">Wrongly assumes one individual can speak on behalf of all diverse Traditional Owner groups and Aboriginal communities across NSW. Mr Munro has no stated connection to Newcastle Country.</div>
+
+            <div class="summary-item-left">5. Engagement at the Launch Event</div>
+            <div class="summary-item-right">Positioning feedback after a document is finalised and launched is an announcement, not an engagement strategy.</div>
+
+            <div class="summary-item-left">6. Drawing on "Publicly Available Sources"</div>
+            <div class="summary-item-right">Relying on public data and frameworks instead of respectfully compensating and engaging local Knowledge Holders.</div>
+
+            <div class="summary-item-left">7. "Adapted to reflect University values"</div>
+            <div class="summary-item-right">Appropriating and altering Indigenous cultural knowledge to fit the University's corporate agenda without community oversight.</div>
+
+            <div class="summary-item-left">8. Installation by a Graphic Design Student</div>
+            <div class="summary-item-right">Assigning an Aboriginal cultural installation to a general student risks severe Indigenous Cultural and Intellectual Property (ICIP) violations.</div>
+
+            <div class="summary-item-left">9. Formalised for "Sector Recognition"</div>
+            <div class="summary-item-right">Prioritises the institution's need for reporting, accountability metrics, and awards over genuine community readiness.</div>
+
+            <div class="summary-item-left">10. Sign-off Meeting Timeline</div>
+            <div class="summary-item-right">Allocating an unrealistically short one-week turnaround for community members to review, consult, and sign off on a strategic document.</div>
+        </div>
+
+        <div class="reflection-prompt">
+            "You've just been handed this document and told to proceed. What do you do first — and who do you call?"
+        </div>
+
+        <div class="action-container">
+            <button id="start-over-btn" class="primary-btn">Start Over</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var targetClicksPerPage = { 1: 2, 2: 3, 3: 3, 4: 2 };
+        var maxPages = 4;
+        var currentPage = 1;
+        var foundTotal = 0;
+        var foundOnPage = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+        var clickables = document.querySelectorAll('.clickable');
+        var nextBtn = document.getElementById('next-btn');
+        var startOverBtn = document.getElementById('start-over-btn');
+        var pageIndicator = document.getElementById('page-indicator');
+        var progressIndicator = document.getElementById('progress-indicator');
+
+        clickables.forEach(function(el) {
+            el.addEventListener('click', function() {
+                if (!this.classList.contains('found')) {
+                    this.classList.add('found');
+                    foundTotal++;
+                    foundOnPage[currentPage]++;
+                    updateUI();
+                }
+            });
+        });
+
+        function updateUI() {
+            progressIndicator.innerText = foundTotal + ' of 10 issues found';
+            nextBtn.disabled = foundOnPage[currentPage] < targetClicksPerPage[currentPage];
+        }
+
+        nextBtn.addEventListener('click', function() {
+            document.getElementById('page-' + currentPage).classList.remove('active');
+            currentPage++;
+            if (currentPage <= maxPages) {
+                document.getElementById('page-' + currentPage).classList.add('active');
+                pageIndicator.innerText = 'Page ' + currentPage + ' of 4';
+                updateUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showSummary();
+            }
+        });
+
+        function showSummary() {
+            document.getElementById('toolbar').style.display = 'none';
+            document.getElementById('document-panel').style.display = 'none';
+            document.getElementById('summary-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        startOverBtn.addEventListener('click', function() {
+            currentPage = 1;
+            foundTotal = 0;
+            foundOnPage = { 1: 0, 2: 0, 3: 0, 4: 0 };
+            clickables.forEach(function(el) { el.classList.remove('found'); });
+            document.getElementById('summary-screen').style.display = 'none';
+            document.getElementById('toolbar').style.display = 'flex';
+            document.getElementById('document-panel').style.display = 'block';
+            document.querySelectorAll('.page').forEach(function(page) { page.classList.remove('active'); });
+            document.getElementById('page-1').classList.add('active');
+            pageIndicator.innerText = 'Page 1 of 4';
+            progressIndicator.innerText = '0 of 10 issues found';
+            nextBtn.disabled = true;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+</script>
+</body>
+</html>
